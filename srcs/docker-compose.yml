@@ -1,0 +1,29 @@
+version: '3'
+services:
+  mariadb:
+    image: mariadb
+    volumes:
+      - ~/data/mariadb:/var/lib/mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql_root_pass
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: bmaudet
+      MYSQL_PASSWORD: user_pass
+    restart: always
+
+  wordpress:
+    image: wordpress:php7.3-fpm-alpine
+    volumes:
+      - ~/data/html:/var/www/html
+    depends_on:
+      - mariadb
+    environment:
+      WORDPRESS_DB_HOST: mariadb
+      MYSQL_ROOT_PASSWORD: mysql_root_pass
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: bmaudet
+      WORDPRESS_DB_PASSWORD: user_pass
+      WORDPRESS_TABLE_PREFIX: wp_
+    links:
+      - mariadb
+    restart: always
