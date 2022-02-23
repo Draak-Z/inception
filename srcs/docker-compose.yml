@@ -1,9 +1,11 @@
 version: '3'
+
 services:
+
   mariadb:
     image: mariadb
     volumes:
-      - ~/data/mariadb:/var/lib/mariadb
+      - ~/data/mariadb:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: mysql_root_pass
       MYSQL_DATABASE: wordpress
@@ -27,3 +29,15 @@ services:
     links:
       - mariadb
     restart: always
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      #- nginx:/etc/nginx/conf.d
+      - ~/data/html:/var/www/html
+    ports:
+      - 8080:80
+    links:
+      - wordpress
+    extra_hosts:
+      - "bmaudet.42.fr:127.0.0.1"
