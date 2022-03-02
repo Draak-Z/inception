@@ -1,37 +1,58 @@
-version: '3'
+version: "3"
 
 services:
-
   mariadb:
-    image: mariadb
+    container_name: "mariadb"
+    build: ./requirements/mariadb/
     volumes:
       - ~/data/mariadb:/var/lib/mysql
     env_file:
       - .env
     restart: always
+    networks:
+      - inception
 
   wordpress:
-    image: wordpress:php7.3-fpm-alpine
+    container_name: "wordpress"
+    build: ./requirements/wordpress/
     volumes:
-      - ~/data/html:/var/www/html
+      - ~/data/wordpress:/var/www/wordpress
     depends_on:
       - mariadb
     env_file:
       - .env
-    links:
-      - mariadb
     restart: always
+    networks:
+      - inception
 
   nginx:
-    image: nginx:alpine
-    volumes:
-      #- nginx:/etc/nginx/conf.d
-      - ~/data/html:/var/www/html
+    container_name: "nginx"
+    build: ./requirements/nginx/
     ports:
       - "443:443"
-    links:
-      - wordpress
-    extra_hosts:
-      - "bmaudet.42.fr:127.0.0.1"
+    volumes:
+      - ~/data/wordpress:/var/www/wordpress
     env_file:
       - .env
+    restart: always
+    extra_hosts:
+      - "bmaudet.42.fr:127.0.0.1"
+    networks:
+      - inception
+
+networks:
+  inception:
+
+volumes:
+  volume-mariadb:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/data/mariadb
+  volume-wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/data/wordpress
