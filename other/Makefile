@@ -1,6 +1,6 @@
 SRCS 			= ./srcs
 DOCKER			= sudo docker
-COMPOSE 		= cd srcs/ && sudo docker-compose
+COMPOSE 		= cd srcs/ && docker-compose
 DATA_PATH 		= /home/bmaudet/data
 
 .PHONY : all build up down pause unpause clean fclean re
