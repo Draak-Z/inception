@@ -42,10 +42,5 @@ fclean	:	clean
 # $(DOCKER) volume prune --force
 re		:	fclean all
 
-# Demande dans la fiche de correction
-# correc	:
-# 			@ sudo docker stop $(docker ps -qa)
-# 			@ sudo docker rm $(docker ps -qa) 
-# 			@ sudo docker rmi -f $(docker images -qa)
-# 			@ sudo docker volume rm $(docker volume ls -q)
-# 			@ sudo docker network rm $(docker ls -q)
+correc	:
+			@ docker stop $(docker ps -qa); docker rm $(docker ps -qa); docker rmi -f $(docker images -qa); docker volume rm $(docker volume ls -q); docker network rm $(docker ls -q) 2>/dev/null
