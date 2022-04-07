@@ -1,4 +1,3 @@
-# Utilisation de l image la plus legere
 FROM	alpine:3.14
 
 # Mise a jour du gestionnaire de paquet + telechargements des outils
