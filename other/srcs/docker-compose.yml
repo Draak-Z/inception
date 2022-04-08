@@ -1,19 +1,5 @@
 version: '3'
 
-volumes:
-  mariadb-volume:
-    driver: local
-    driver_opts:
-      device: /home/bmaudet/data/database
-      type: volume
-      o: bind
-  wordpress-volume:
-    driver: local
-    driver_opts:
-      device: /home/bmaudet/data/wordpress
-      type: volume
-      o: bind
-
 networks:
   inception-network:
 
@@ -58,3 +44,17 @@ services:
     env_file:
       - .env
     restart: unless-stopped
+
+volumes:
+  mariadb-volume:
+    driver: local
+    driver_opts:
+      device: /home/bmaudet/data/database
+      o: bind
+      type: volume
+  wordpress-volume:
+    driver: local
+    driver_opts:
+      device: /home/bmaudet/data/wordpress
+      o: bind
+      type: volume

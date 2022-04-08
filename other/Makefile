@@ -1,5 +1,4 @@
 SRCS 			= ./srcs
-DOCKER			= sudo docker
 COMPOSE 		= cd srcs/ && docker-compose
 DATA_PATH 		= /home/bmaudet/data
 
@@ -15,6 +14,7 @@ all		:	build
 			$(COMPOSE) up -d
 
 build	:
+			sudo ls
 			$(COMPOSE) build
 
 up:
@@ -29,17 +29,20 @@ pause:
 unpause:
 			$(COMPOSE) unpause
 
+pull:
+			$(COMPOSE) pull
+
 clean	:
 			$(COMPOSE) down -v --rmi all --remove-orphans
 
 fclean	:	clean
-			$(DOCKER) system prune --volumes --all --force
+			docker system prune --volumes --all --force
 			sudo rm -rf $(DATA_PATH)
-			$(DOCKER) network prune --force
+			docker network prune --force
 			echo docker volume rm $(docker volume ls -q)
-			$(DOCKER) image prune --force
+			docker image prune --force
 
-# $(DOCKER) volume prune --force
+# docker volume prune --force
 re		:	fclean all
 
 correc	:
