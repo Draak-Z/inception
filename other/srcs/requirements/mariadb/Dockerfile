@@ -1,10 +1,7 @@
-# Depuis l'image la plus legere
 FROM	alpine:3.14
 
-# Mise a jour du gestionnaire de paquet, bonne pratique
 RUN		apk update
 
-# Installation de mariadb et mariadb client
 RUN		apk add --no-cache --quiet --update mariadb mariadb-client vim
 
 # Creation du dossier pour le daemon
