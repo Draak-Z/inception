@@ -1,3 +1,4 @@
+
 FROM	alpine:3.14
 
 RUN		apk update
@@ -8,9 +9,9 @@ RUN		apk add --no-cache --quiet --update openssl
 RUN		mkdir -p /etc/nginx/ssl
 
 RUN 	openssl req -x509 -nodes \
-	-out /etc/nginx/ssl/bmaudet.42.fr.crt \	
-	-keyout /etc/nginx/ssl/bmaudet.42.fr.key \
-	-subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=bmaudet.42.fr/UID=bmaudet"
+		-out /etc/nginx/ssl/bmaudet.42.fr.crt \	
+		-keyout /etc/nginx/ssl/bmaudet.42.fr.key \
+		-subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=bmaudet.42.fr/UID=bmaudet"
 
 RUN 	mkdir -p /var/run/nginx
 

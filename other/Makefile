@@ -17,6 +17,10 @@ build	:
 			sudo ls
 			$(COMPOSE) build
 
+rebuild	:
+			$(COMPOSE) build
+			${COMPOSE} up -d 
+
 up:
 			${COMPOSE} up -d 
 
@@ -42,7 +46,6 @@ fclean	:	clean
 			echo docker volume rm $(docker volume ls -q)
 			docker image prune --force
 
-# docker volume prune --force
 re		:	fclean all
 
 correc	:
