@@ -1,13 +1,13 @@
-target="/etc/php7/php-fpm.d/www.conf"
+file="/etc/php7/php-fpm.d/www.conf"
 
-grep -E "listen = 127.0.0.1" $target > /dev/null 2>&1
+grep -E "listen = 127.0.0.1" $file > /dev/null 2>&1
+
 if [ $? -eq 0 ]; then
-	#On va remplacer la premiere partie par la deuxieme
-	sed -i "s|.*listen = 127.0.0.1.*|listen = 9000|g" $target
-	echo "env[MARIADB_HOST] = \$MARIADB_HOST" >> $target
-	echo "env[MARIADB_USER] = \$MARIADB_USER" >> $target
-	echo "env[MARIADB_PWD] = \$MARIADB_PWD" >> $target
-	echo "env[MARIADB_DB] = \$MARIADB_DB" >> $target
+	sed -i "s|.*listen = 127.0.0.1.*|listen = 9000|g" $file
+	echo "env[MARIADB_HOST] = \$MARIADB_HOST" >> $file
+	echo "env[MARIADB_USER] = \$MARIADB_USER" >> $file
+	echo "env[MARIADB_PWD] = \$MARIADB_PWD" >> $file
+	echo "env[MARIADB_DB] = \$MARIADB_DB" >> $file
 fi
 
 if [ ! -f "wp-config.php" ]; then
@@ -18,6 +18,8 @@ if [ ! -f "wp-config.php" ]; then
 
 	wp core install --url="$WP_URL" --title="$WP_TITLE" --admin_user="$WP_ADMIN_USER" \
     	--admin_password="$WP_ADMIN_PWD" --admin_email="$WP_ADMIN_EMAIL" --skip-email
+
+	wp plugin install redis-cache --activate
 
 	wp plugin update --all
 

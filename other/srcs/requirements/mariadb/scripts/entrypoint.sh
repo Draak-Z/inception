@@ -1,6 +1,5 @@
-cat .tmp 2> /dev/null
+if [ ! -f ".tmp" ]; then
 
-if [ $? -ne 0 ]; then
 	usr/bin/mysqld_safe --datadir=/var/lib/mysql &
 
 	while ! mysqladmin ping -h "$MARIADB_HOST" --silent; do
