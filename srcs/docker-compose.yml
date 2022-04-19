@@ -1,58 +1,60 @@
-version: "3"
-
-services:
-  mariadb:
-    container_name: "mariadb"
-    build: ./requirements/mariadb/
-    volumes:
-      - ~/data/mariadb:/var/lib/mysql
-    env_file:
-      - .env
-    restart: always
-    networks:
-      - inception
-
-  wordpress:
-    container_name: "wordpress"
-    build: ./requirements/wordpress/
-    volumes:
-      - ~/data/wordpress:/var/www/wordpress
-    depends_on:
-      - mariadb
-    env_file:
-      - .env
-    restart: always
-    networks:
-      - inception
-
-  nginx:
-    container_name: "nginx"
-    build: ./requirements/nginx/
-    ports:
-      - "443:443"
-    volumes:
-      - ~/data/wordpress:/var/www/wordpress
-    env_file:
-      - .env
-    restart: always
-    extra_hosts:
-      - "bmaudet.42.fr:127.0.0.1"
-    networks:
-      - inception
+version: '3'
 
 networks:
-  inception:
+  inception-network:
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: ./requirements/nginx
+    image: img_nginx
+    volumes:
+      - wordpress-volume:/var/www/wordpress
+    networks:
+      - inception-network
+    ports:
+      - "443:443"
+    restart: unless-stopped
+
+  mariadb:
+    container_name: mariadb
+    build:
+      context: ./requirements/mariadb
+    image: img_mariadb
+    volumes:
+      - mariadb-volume:/var/lib/mysql
+    networks:
+      - inception-network
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  wordpress:
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    build:
+      context: ./requirements/wordpress
+    image: img_wordpress
+    volumes:
+      - wordpress-volume:/var/www/wordpress
+    networks:
+      - inception-network
+    env_file:
+      - .env
+    restart: unless-stopped
 
 volumes:
-  volume-mariadb:
+  mariadb-volume:
     driver: local
     driver_opts:
-      type: none
+      device: /home/bmaudet/data/database
       o: bind
-      device: ~/data/mariadb
-  volume-wordpress:
+      type: volume
+  wordpress-volume:
     driver: local
     driver_opts:
-      type: none
+      device: /home/bmaudet/data/wordpress
       o: bind
-      device: ~/data/wordpress
+      type: volume
