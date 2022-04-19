@@ -4,6 +4,7 @@ RUN		apk update
 
 RUN		apk add --no-cache --quiet --update curl bash vim
 RUN		apk add --no-cache --quiet --update mariadb-client
+RUN		apk add --no-cache --quiet --update redis
 RUN		apk add --no-cache --quiet --update php7 php-fpm php-phar php-json php-mysqli php-iconv
 
 RUN		mkdir -p /var/www/wordpress 

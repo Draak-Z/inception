@@ -17,6 +17,8 @@ if [ ! -f "wp-config.php" ]; then
 	wp core install --url="$WP_URL" --title="$WP_TITLE" --admin_user="$WP_ADMIN_USER" \
     	--admin_password="$WP_ADMIN_PWD" --admin_email="$WP_ADMIN_EMAIL" --skip-email
 
+	wp plugin install redis-cache --activate
+
 	wp plugin update --all
 
 	wp theme install twentysixteen --activate
@@ -25,5 +27,7 @@ if [ ! -f "wp-config.php" ]; then
 
 	wp post generate --count=3 --post_title="Hello"
 fi
+
+redis-cli -s ~/redis.sock monitor
 
 php-fpm7 --nodaemonize

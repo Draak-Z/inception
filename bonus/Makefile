@@ -6,9 +6,6 @@ all		:
 			mkdir /home/bmaudet/data/mariadb
 			$(COMPOSE) up -d
 
-bonus:		fclean
-			cd bonus/ && make
-
 up:
 			${COMPOSE} up -d 
 
