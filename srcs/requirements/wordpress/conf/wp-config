@@ -24,6 +24,10 @@ $table_prefix = 'wp_';
 
 define('WP_CACHE', true);
 
+define('WP_REDIS_PATH', __DIR__ . '/../redis.sock');
+
+define('WP_REDIS_SCHEME', 'unix');
+
 if ( ! defined( 'ABSPATH' ) ) {
         define( 'ABSPATH', __DIR__ . '/' );
 }

@@ -1,13 +1,11 @@
-file="/etc/php7/php-fpm.d/www.conf"
-
-grep -E "listen = 127.0.0.1" $file > /dev/null 2>&1
+grep -E "listen = 127.0.0.1" $FILE > /dev/null 2>&1
 
 if [ $? -eq 0 ]; then
-	sed -i "s|.*listen = 127.0.0.1.*|listen = 9000|g" $file
-	echo "env[MARIADB_HOST] = \$MARIADB_HOST" >> $file
-	echo "env[MARIADB_USER] = \$MARIADB_USER" >> $file
-	echo "env[MARIADB_PWD] = \$MARIADB_PWD" >> $file
-	echo "env[MARIADB_DB] = \$MARIADB_DB" >> $file
+	sed -i "s|.*listen = 127.0.0.1.*|listen = 9000|g" $FILE
+	echo "env[MARIADB_HOST] = \$MARIADB_HOST" >> $FILE
+	echo "env[MARIADB_USER] = \$MARIADB_USER" >> $FILE
+	echo "env[MARIADB_PWD] = \$MARIADB_PWD" >> $FILE
+	echo "env[MARIADB_DB] = \$MARIADB_DB" >> $FILE
 fi
 
 if [ ! -f "wp-config.php" ]; then
@@ -29,5 +27,7 @@ if [ ! -f "wp-config.php" ]; then
 
 	wp post generate --count=3 --post_title="Hello"
 fi
+
+redis-cli -s ~/redis.sock monitor
 
 php-fpm7 --nodaemonize

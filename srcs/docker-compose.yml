@@ -49,7 +49,7 @@ volumes:
   mariadb-volume:
     driver: local
     driver_opts:
-      device: /home/bmaudet/data/database
+      device: /home/bmaudet/data/mariadb
       o: bind
       type: volume
   wordpress-volume:
