@@ -1,9 +1,11 @@
 COMPOSE 		= cd srcs/ && docker compose
 
 all		:
+			sudo service nginx stop
+			sudo service mysql stop
 			$(COMPOSE) build
 			mkdir -p /home/bmaudet/data/wordpress
-			mkdir /home/bmaudet/data/mariadb
+			mkdir -p /home/bmaudet/data/mariadb
 			$(COMPOSE) up -d
 
 bonus:		fclean
